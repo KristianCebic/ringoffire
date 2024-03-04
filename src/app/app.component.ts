@@ -1,13 +1,24 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { subscribe } from 'diagnostics_channel';
+import { Observable } from 'rxjs';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Stelle sicher, dass du das CommonModule importierst
 
 @Component({
-  selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  selector: 'app-root',
+  imports: [ CommonModule ],
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  title = 'ringoffire';
+  firestore: Firestore = inject(Firestore);
+
+  items$: Observable<any[]>;
+
+  constructor() {
+    const aCollection = collection(this.firestore, 'items')
+    this.items$ = collectionData(aCollection);
+  }
 }

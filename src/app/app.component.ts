@@ -4,11 +4,12 @@ import { subscribe } from 'diagnostics_channel';
 import { Observable } from 'rxjs';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Stelle sicher, dass du das CommonModule importierst
+import { RouterModule } from '@angular/router'; 
 
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [ CommonModule ],
+  imports: [ CommonModule, RouterModule ],
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })

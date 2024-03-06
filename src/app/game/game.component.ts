@@ -7,7 +7,9 @@ import {MatDialog} from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { GameInfoComponent } from '../game-info/game-info.component';
-import { firestore } from 'firebase';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+
 
 @Component({
   selector: 'app-game',
@@ -17,17 +19,26 @@ import { firestore } from 'firebase';
   styleUrl: './game.component.scss'
 })
 
+
+
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
   currentCard: string | undefined;
   game: Game;
 
-  constructor(public dialog: MatDialog) { 
+  constructor(private firestore: AngularFirestore, public dialog: MatDialog) { 
     this.game = new Game(); 
   }
 
   ngOnInit(): void {
     this.newGame();
+    this
+    .firestore
+    .collection('items')
+    .valueChanges()
+    .subscribe((game) => {
+      console.log('Game update', game);
+    });
   }
 
   newGame(){

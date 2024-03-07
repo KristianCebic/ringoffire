@@ -8,10 +8,12 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment.development';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
     provideRouter(routes),
     provideClientHydration(), 
     provideAnimationsAsync(), 

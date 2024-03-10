@@ -1,10 +1,10 @@
 export const environment = {
     firebaseConfig: {
-      apiKey: "AIzaSyBpB6zmJKFyr_R_agAXMBmLfKagJMrTmLs",
-      authDomain: "fir-cms-cb14a.firebaseapp.com",
-      projectId: "fir-cms-cb14a",
-      storageBucket: "fir-cms-cb14a.appspot.com",
-      messagingSenderId: "455067148053",
-      appId: "1:455067148053:web:29019baf557a4a4015d31c"
+      apiKey: "AIzaSyB6fbZOU5Ke3yrnKYkdlTEllqERCPZ2rmw",
+  authDomain: "ringoffire-a9400.firebaseapp.com",
+  projectId: "ringoffire-a9400",
+  storageBucket: "ringoffire-a9400.appspot.com",
+  messagingSenderId: "344123640552",
+  appId: "1:344123640552:web:abda39f7dbc885710bd75d"
     }
   };

@@ -1,14 +1,19 @@
 {
+  "projects": {
+    "default": "ringoffire-a9400"
+  },
   "targets": {
-    "ring-of-fire-62e0c": {
+    "ringoffire-a9400": {
       "hosting": {
         "ringoffire": [
-          "ring-of-fire-62e0c"
+          "ringoffire-a9400"
         ]
       }
     }
   },
-  "projects": {
-    "default": "ring-of-fire-62e0c"
+  "etags": {
+    "ringoffire-a9400": {
+      "extensionInstances": {}
+    }
   }
 }

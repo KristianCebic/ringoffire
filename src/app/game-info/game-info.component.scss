@@ -1,0 +1,11 @@
+mat-card {
+    @media (max-width: 720px) {
+        min-height: 120px;
+    }
+
+    padding: 10px;
+}
+
+mat-card-content {
+    padding: 0;
+}

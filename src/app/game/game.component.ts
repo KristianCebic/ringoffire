@@ -10,12 +10,21 @@ import { GameInfoComponent } from '../game-info/game-info.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ActivatedRoute } from '@angular/router';
+import { PlayerMobileComponent } from '../player-mobile/player-mobile.component';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule, PlayerComponent, MatIconModule, MatDialogModule, GameInfoComponent],
+  imports: [
+    CommonModule,
+    PlayerComponent, 
+    MatIconModule, 
+    MatDialogModule, 
+    GameInfoComponent,
+    PlayerMobileComponent,
+  ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
@@ -23,6 +32,7 @@ import { ActivatedRoute } from '@angular/router';
 export class GameComponent implements OnInit {
   game: Game;
   gameId!: string;
+  gameOver = false
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +41,6 @@ export class GameComponent implements OnInit {
     ) { this.game = new Game(); }
 
   ngOnInit(): void {
-    // this.newGame();
     this.route.params.subscribe((params) => {
       console.log(params['id']);
       this.gameId = params['id'];
@@ -46,6 +55,7 @@ export class GameComponent implements OnInit {
         this.game.currentPlayer = game.currentPlayer;
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
+        this.game.player_images = game.player_images;
         this.game.stack = game.stack;
         this.game.pickCardAnimation = game.pickCardAnimation;
         this.game.currentCard = game.currentCard;
@@ -58,15 +68,18 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (!this.game.pickCardAnimation) {
+    if (this.game.stack.length == 0) {
+      this.gameOver = true
+    } else if (!this.game.pickCardAnimation) {
         this.game.currentCard = this.game.stack.pop();
         this.game.pickCardAnimation = true;
         console.log('New card: ' + this.game.currentCard);
         console.log('Game is', this.game);
-        this.saveGame();
-
         this.game.currentPlayer++
         this.game.currentPlayer = this.game.currentPlayer % this.game.players.length
+        
+        this.saveGame();
+
       setTimeout(()=>{
         if (this.game.currentCard) {
           this.game.playedCards.push(this.game.currentCard);
@@ -77,12 +90,32 @@ export class GameComponent implements OnInit {
   }
 }
 
+editPlayer(playerId: number) {
+  console.log('Edit player', playerId);
+
+  const dialogRef = this.dialog.open(EditPlayerComponent)
+
+  dialogRef.afterClosed().subscribe((change: string) => {
+    console.log('Received change', change)
+    if (change) {
+      if(change == 'DELETE') {
+        this.game.players.splice(playerId, 1)
+        this.game.player_images.splice(playerId, 1)
+      } else {       
+        this.game.player_images[playerId] = change;
+      }
+      this.saveGame()
+    }
+  });
+}
+
 openDialog(): void {
   const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
   dialogRef.afterClosed().subscribe((name: string) => {
     if (name && name.length > 0)
     this.game.players.push(name)
+    this.game.player_images.push('boy.png')
     this.saveGame();
   });
 }

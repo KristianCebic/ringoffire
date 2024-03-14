@@ -21,16 +21,25 @@ export class StartScreenComponent {
   }
 
   newGame() {
-    // Start game
     let game = new Game();
+    const gameData: { [key: string]: any } = game.toJson();
+  
+    for (const key in gameData) {
+      if (gameData[key] === undefined) {
+        delete gameData[key];
+      }
+    }
+  
     this.firestore
       .collection('games')
-      .add(game.toJson())
-      .then( (gameInfo: any) => {
+      .add(gameData)
+      .then(gameInfo => {
         console.log('GameInfo: ', gameInfo);
         this.router.navigateByUrl('/game/' + gameInfo.id);
       });
   }
+  
+  
 }
 
 

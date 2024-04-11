@@ -34,7 +34,6 @@ export class StartScreenComponent {
       .collection('games')
       .add(gameData)
       .then(gameInfo => {
-        console.log('GameInfo: ', gameInfo);
         this.router.navigateByUrl('/game/' + gameInfo.id);
       });
   }
